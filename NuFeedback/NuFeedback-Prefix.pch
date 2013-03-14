@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'NuFeedback' target in the 'NuFeedback' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
