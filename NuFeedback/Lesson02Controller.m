@@ -47,10 +47,12 @@
 
 - (void) windowDidEnterFullScreen:(NSNotification *)notification {
     CGDisplayHideCursor(kCGDirectMainDisplay);
+    isFullScreen = YES;
 }
 
 - (void) windowDidExitFullScreen:(NSNotification *)notification {
     CGDisplayShowCursor(kCGDirectMainDisplay);
+    isFullScreen = NO;
 }
 
 /*
@@ -241,7 +243,8 @@
 	float dx = (newLocation.x - currentLocation.x) / 1440.0;
 	float dy = (newLocation.y - currentLocation.y) / 900.0;
 	
-	currentLocation = newLocation;
+    NSLog(@"dx: %f dy: %f", dx, dy);
+    currentLocation = newLocation;
 	
 	if (zoomRot)
 	{
@@ -251,6 +254,13 @@
 		[glView setCenterDx:dx/10.0 andDy:dy/10.0];
 	}
 
+    if (isFullScreen) {
+        CGPoint center = CGPointMake(1440/2, 900/2);
+        CGSetLocalEventsSuppressionInterval(0);
+        CGWarpMouseCursorPosition(center);
+
+        currentLocation = center;
+    }
 }
 
 - (void) switchMouseMode {

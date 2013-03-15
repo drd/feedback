@@ -23,7 +23,8 @@
 	RDFeedbackGLView *glView;
    
 	NSPoint currentLocation;
-   
+    bool isFullScreen;
+    
 	bool zoomRot;
 	float panDelta;
 }
