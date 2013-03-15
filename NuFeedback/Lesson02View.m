@@ -32,13 +32,12 @@
    colorBits = numColorBits;
    depthBits = numDepthBits;
    runningFullScreen = runFullScreen;
-   originalDisplayMode = (NSDictionary *) CGDisplayCurrentMode(
+   originalDisplayMode = (__bridge NSDictionary *) CGDisplayCurrentMode(
                                              kCGDirectMainDisplay );
    pixelFormat = [ self createPixelFormat:frame ];
    if( pixelFormat != nil )
    {
       self = [ super initWithFrame:frame pixelFormat:pixelFormat ];
-      [ pixelFormat release ];
       if( self )
       {
          [ [ self openGLContext ] makeCurrentContext ];
@@ -50,6 +49,7 @@
             [ self clearGLContext ];
             self = nil;
          }
+         [self setWantsBestResolutionOpenGLSurface:YES]; 
       }
    }
    else
@@ -86,14 +86,14 @@
    if( runningFullScreen )  // Do this before getting the pixel format
    {
       pixelAttribs[ pixNum++ ] = NSOpenGLPFAFullScreen;
-      fullScreenMode = (NSDictionary *) CGDisplayBestModeForParameters(
+      fullScreenMode = (__bridge NSDictionary *) CGDisplayBestModeForParameters(
                                            kCGDirectMainDisplay,
                                            colorBits, frame.size.width,
                                            frame.size.height, NULL );
       CGDisplayCapture( kCGDirectMainDisplay );
       CGDisplayHideCursor( kCGDirectMainDisplay );
       CGDisplaySwitchToMode( kCGDirectMainDisplay,
-                             (CFDictionaryRef) fullScreenMode );
+                             (__bridge CFDictionaryRef) fullScreenMode );
    }
    pixelAttribs[ pixNum ] = 0;
    pixelFormat = [ [ NSOpenGLPixelFormat alloc ]
@@ -132,7 +132,6 @@
          if( [ self initGL ] )
             success = TRUE;
       }
-      [ pixelFormat release ];
    }
    if( !success && runningFullScreen )
       [ self switchToOriginalDisplayMode ];
@@ -147,7 +146,7 @@
 - (void) switchToOriginalDisplayMode
 {
    CGDisplaySwitchToMode( kCGDirectMainDisplay,
-                          (CFDictionaryRef) originalDisplayMode );
+                          (__bridge CFDictionaryRef) originalDisplayMode );
    CGDisplayShowCursor( kCGDirectMainDisplay );
    CGDisplayRelease( kCGDirectMainDisplay );
 }
@@ -327,7 +326,6 @@
 {
    if( runningFullScreen )
       [ self switchToOriginalDisplayMode ];
-   [ originalDisplayMode release ];
 }
 
 @end

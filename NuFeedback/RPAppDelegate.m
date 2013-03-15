@@ -7,12 +7,15 @@
 //
 
 #import "RPAppDelegate.h"
+#import "Lesson02Controller.h"
 
 @implementation RPAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
+    Lesson02Controller *controller = [[Lesson02Controller alloc] init];
+    [controller awakeFromNib];
 }
 
 @end

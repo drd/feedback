@@ -21,7 +21,7 @@
 
     if (self) {
 		// initial values
-		texture_resolution = 2048;
+		texture_resolution = 4096;
 		
 		t = 0; dt = .001;
 		rot = 0; size = 1;
@@ -184,63 +184,6 @@
 	glPopMatrix();
 }
 
-//void keyboard(unsigned char key, int x, int y)
-//{
-//	if(key == 'z')
-//		++menubarDisplacement;
-//	
-//	if(key == 'x')
-//		--menubarDisplacement;
-//
-//	if(key == 'j')
-//		rot -= .0025;
-//	
-//	if(key == 'l')
-//		rot += .0025;
-//
-//	if(key == 'i')
-//		size -= .0025;
-//	
-//	if(key == 'k')
-//		size += .0025;
-//
-//	if(key == 'w')
-//		ycen += .001;
-//	
-//	if(key == 'a')
-//		xcen -= .001;
-//
-//	if(key == 's')
-//		ycen -= .001;
-//	
-//	if(key == 'd')
-//		xcen += .001;
-//	
-//	if(key == 't')
-//		dt -= .000005;
-//
-//	if(key == 'T')
-//		dt += .000005;
-//
-//	if(key == '-')
-//		lineWidth -= .25;
-//		
-//	if(key == '=')
-//		lineWidth += .25;
-//	
-//	if(key == 'b')
-//		blur = !blur;
-//	
-//	if(key == '\t')
-//		zoomRot = !zoomRot;
-//	
-//	if(key == ' ') {
-//		size = 1.0;
-//		rot = 0;
-//		xcen = ycen = size / 2.0;
-//	}		
-//}
-
 - (void) setDeltaTime:(float)deltaTime {
 	dt = deltaTime;
 }
@@ -295,8 +238,12 @@
 }
 
 - (void) setCenterDx:(float)dx andDy:(float)dy {
-	xcen += dx;
-	ycen += dy;
+    dx *= size;
+    dy *= size;
+	xcen += dx * cos(rot) - dy * sin(rot);
+	ycen += dx * sin(rot) + dy * cos(rot);
+//	xcen += dx;
+//	ycen += dy;
 }
 
 
@@ -447,11 +394,13 @@
 }
 
 - (int) height {
-	return [self bounds].size.height;
+    NSRect backingBounds = [self convertRectToBacking:[self bounds]];
+	return backingBounds.size.height;
 }
 
 - (int) width {
-	return [self bounds].size.width;
+    NSRect backingBounds = [self convertRectToBacking:[self bounds]];
+	return backingBounds.size.width;
 }
 
 - (void) incrementTime {

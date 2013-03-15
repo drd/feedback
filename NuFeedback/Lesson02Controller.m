@@ -37,13 +37,21 @@
       [ glWindow makeKeyAndOrderFront:self ];
       [ self setupRenderTimer ];
 	  zoomRot = true;
-	   panDelta = 0.05;
+      panDelta = 0.005;
 	  currentLocation = [NSEvent mouseLocation];
    }
    else
       [ self createFailed ];
 }  
 
+
+- (void) windowDidEnterFullScreen:(NSNotification *)notification {
+    CGDisplayHideCursor(kCGDirectMainDisplay);
+}
+
+- (void) windowDidExitFullScreen:(NSNotification *)notification {
+    CGDisplayShowCursor(kCGDirectMainDisplay);
+}
 
 /*
  * Setup timer to update the OpenGL view.
@@ -52,10 +60,11 @@
 {
    NSTimeInterval timeInterval = 1.0 / 30.0;
 
-   renderTimer = [ [ NSTimer scheduledTimerWithTimeInterval:timeInterval
-                             target:self
-                             selector:@selector( updateGLView: )
-                             userInfo:nil repeats:YES ] retain ];
+   renderTimer = [ NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                                   target:self
+                                                 selector:@selector( updateGLView: )
+                                                 userInfo:nil
+                                                  repeats:YES ];
    [ [ NSRunLoop currentRunLoop ] addTimer:renderTimer
                                   forMode:NSEventTrackingRunLoopMode ];
    [ [ NSRunLoop currentRunLoop ] addTimer:renderTimer
@@ -83,38 +92,72 @@
 
 	switch( unicodeKey )
 	{
+/* zoom / rotate */
 		case 'i':
-			[glView increaseZoom];
+			[glView increaseZoomBy:0.001];
 			break;
 		
 		case 'k':
-			[glView decreaseZoom];
+			[glView decreaseZoomBy:0.001];
 			break;
 
 		case 'j':
-			[glView decreaseRotation];
+			[glView decreaseRotationBy:0.001];
 			break;
 		
 		case 'l':
-			[glView increaseRotation];
+			[glView increaseRotationBy:0.001];
 			break;
 
+		case 'I':
+			[glView increaseZoom];
+			break;
+            
+		case 'K':
+			[glView decreaseZoom];
+			break;
+            
+		case 'J':
+			[glView decreaseRotation];
+			break;
+            
+		case 'L':
+			[glView increaseRotation];
+			break;
+            
+/* panning */
 		case 'w':
-			[glView setCenterDx:0.0 andDy:panDelta];
+			[glView setCenterDx:0.0 andDy:panDelta / 10.0];
 			break;
 			
 		case 's':
-			[glView setCenterDx:0.0 andDy:-panDelta];
+			[glView setCenterDx:0.0 andDy:-panDelta / 10.0];
 			break;
 			
 		case 'a':
-			[glView setCenterDx:-panDelta andDy:0];
+			[glView setCenterDx:-panDelta / 10.0 andDy:0];
 			break;
 			
 		case 'd':
+			[glView setCenterDx:panDelta / 10.0 andDy:0];
+			break;
+		          
+		case 'W':
+			[glView setCenterDx:0.0 andDy:panDelta];
+			break;
+			
+		case 'S':
+			[glView setCenterDx:0.0 andDy:-panDelta];
+			break;
+			
+		case 'A':
+			[glView setCenterDx:-panDelta andDy:0];
+			break;
+			
+		case 'D':
 			[glView setCenterDx:panDelta andDy:0];
 			break;
-		
+
 		case '+':
 			[glView changeLineWidth:0.5];
 			break;
@@ -132,6 +175,64 @@
 		
    }
 }
+
+//void keyboard(unsigned char key, int x, int y)
+//{
+//	if(key == 'z')
+//		++menubarDisplacement;
+//
+//	if(key == 'x')
+//		--menubarDisplacement;
+//
+//	if(key == 'j')
+//		rot -= .0025;
+//
+//	if(key == 'l')
+//		rot += .0025;
+//
+//	if(key == 'i')
+//		size -= .0025;
+//
+//	if(key == 'k')
+//		size += .0025;
+//
+//	if(key == 'w')
+//		ycen += .001;
+//
+//	if(key == 'a')
+//		xcen -= .001;
+//
+//	if(key == 's')
+//		ycen -= .001;
+//
+//	if(key == 'd')
+//		xcen += .001;
+//
+//	if(key == 't')
+//		dt -= .000005;
+//
+//	if(key == 'T')
+//		dt += .000005;
+//
+//	if(key == '-')
+//		lineWidth -= .25;
+//
+//	if(key == '=')
+//		lineWidth += .25;
+//
+//	if(key == 'b')
+//		blur = !blur;
+//
+//	if(key == '\t')
+//		zoomRot = !zoomRot;
+//
+//	if(key == ' ') {
+//		size = 1.0;
+//		rot = 0;
+//		xcen = ycen = size / 2.0;
+//	}
+//}
+
 
 - (void) mouseMoved:(NSEvent *)theEvent
 {
@@ -173,7 +274,7 @@
    else
    {
       if( ![ glView setFullScreen:TRUE
-                    inFrame:NSMakeRect( 0, 0, 800, 600 ) ] )
+                    inFrame:NSMakeRect( 0, 0, 1200, 800 ) ] )
          [ self createFailed ];
    }
 }
@@ -200,12 +301,8 @@
  */
 - (void) dealloc
 {
-   [ glWindow release ]; 
-   [ glView release ];
    if( renderTimer != nil && [ renderTimer isValid ] )
       [ renderTimer invalidate ];
-
-	[super dealloc ];
 }
 
 @end

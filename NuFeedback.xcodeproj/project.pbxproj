@@ -17,6 +17,10 @@
 		07D9D5C616F1891800E681D3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D9D5A616F1891800E681D3 /* Cocoa.framework */; };
 		07D9D5CE16F1891800E681D3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07D9D5CC16F1891800E681D3 /* InfoPlist.strings */; };
 		07D9D5D116F1891800E681D3 /* NuFeedbackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D9D5D016F1891800E681D3 /* NuFeedbackTests.m */; };
+		07D9D5E016F1895E00E681D3 /* Lesson02Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D9D5DB16F1895E00E681D3 /* Lesson02Controller.m */; };
+		07D9D5E116F1895E00E681D3 /* Lesson02View.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D9D5DD16F1895E00E681D3 /* Lesson02View.m */; };
+		07D9D5E216F1895E00E681D3 /* RDFeedbackGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D9D5DF16F1895E00E681D3 /* RDFeedbackGLView.m */; };
+		07D9D5E416F18B1D00E681D3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D9D5E316F18B1D00E681D3 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +53,13 @@
 		07D9D5CD16F1891800E681D3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		07D9D5CF16F1891800E681D3 /* NuFeedbackTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NuFeedbackTests.h; sourceTree = "<group>"; };
 		07D9D5D016F1891800E681D3 /* NuFeedbackTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NuFeedbackTests.m; sourceTree = "<group>"; };
+		07D9D5DA16F1895E00E681D3 /* Lesson02Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lesson02Controller.h; sourceTree = "<group>"; };
+		07D9D5DB16F1895E00E681D3 /* Lesson02Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lesson02Controller.m; sourceTree = "<group>"; };
+		07D9D5DC16F1895E00E681D3 /* Lesson02View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lesson02View.h; sourceTree = "<group>"; };
+		07D9D5DD16F1895E00E681D3 /* Lesson02View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lesson02View.m; sourceTree = "<group>"; };
+		07D9D5DE16F1895E00E681D3 /* RDFeedbackGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDFeedbackGLView.h; sourceTree = "<group>"; };
+		07D9D5DF16F1895E00E681D3 /* RDFeedbackGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDFeedbackGLView.m; sourceTree = "<group>"; };
+		07D9D5E316F18B1D00E681D3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D9D5E416F18B1D00E681D3 /* OpenGL.framework in Frameworks */,
 				07D9D5A716F1891800E681D3 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,6 +87,7 @@
 		07D9D59716F1891800E681D3 = {
 			isa = PBXGroup;
 			children = (
+				07D9D5E316F18B1D00E681D3 /* OpenGL.framework */,
 				07D9D5AC16F1891800E681D3 /* NuFeedback */,
 				07D9D5C916F1891800E681D3 /* NuFeedbackTests */,
 				07D9D5A516F1891800E681D3 /* Frameworks */,
@@ -116,6 +129,12 @@
 			children = (
 				07D9D5B816F1891800E681D3 /* RPAppDelegate.h */,
 				07D9D5B916F1891800E681D3 /* RPAppDelegate.m */,
+				07D9D5DA16F1895E00E681D3 /* Lesson02Controller.h */,
+				07D9D5DB16F1895E00E681D3 /* Lesson02Controller.m */,
+				07D9D5DC16F1895E00E681D3 /* Lesson02View.h */,
+				07D9D5DD16F1895E00E681D3 /* Lesson02View.m */,
+				07D9D5DE16F1895E00E681D3 /* RDFeedbackGLView.h */,
+				07D9D5DF16F1895E00E681D3 /* RDFeedbackGLView.m */,
 				07D9D5BB16F1891800E681D3 /* MainMenu.xib */,
 				07D9D5AD16F1891800E681D3 /* Supporting Files */,
 			);
@@ -264,6 +283,9 @@
 			files = (
 				07D9D5B316F1891800E681D3 /* main.m in Sources */,
 				07D9D5BA16F1891800E681D3 /* RPAppDelegate.m in Sources */,
+				07D9D5E016F1895E00E681D3 /* Lesson02Controller.m in Sources */,
+				07D9D5E116F1895E00E681D3 /* Lesson02View.m in Sources */,
+				07D9D5E216F1895E00E681D3 /* RDFeedbackGLView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
