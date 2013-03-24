@@ -16,7 +16,7 @@
 #import "RDFeedbackGLView.h"
 #import "RPServer.h"
 
-@interface Lesson02Controller : NSResponder
+@interface Lesson02Controller : NSResponder <RPServerDelegate>
 {
 	IBOutlet NSWindow *glWindow;
 
@@ -36,5 +36,7 @@
 - (IBAction) setFullScreen:(id)sender;
 - (void) dealloc;
 - (void) switchMouseMode;
+
+- (void) didReceivePacket:(payload)p;
 
 @end

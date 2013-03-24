@@ -269,6 +269,14 @@
 	zoomRot = !zoomRot;
 }
 
+- (void) didReceivePacket:(payload)p {
+    if (zoomRot) {
+        [glView setSize:p.pitch];
+        [glView setRotation:p.roll];
+    } else {
+        [glView setCenterX:p.pitch andY:p.roll];
+    }
+}
 
 /*
  * Set full screen.

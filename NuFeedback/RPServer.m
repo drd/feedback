@@ -21,6 +21,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 	[DDLog addLogger:[DDTTYLogger sharedInstance]];
 	[DDLog addLogger:[DDASLLogger sharedInstance]];
 
+    serverDelegate = delegate;
     asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self
                                              delegateQueue:dispatch_get_main_queue()];
 	// Create an array to hold accepted incoming connections.
@@ -42,7 +43,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 		// Obviously you will be using your own custom service type.
 		
 		netService = [[NSNetService alloc] initWithDomain:@"local."
-		                                             type:@"_Feedback._tcp."
+		                                             type:@"_feedback._tcp."
 		                                             name:@""
 		                                             port:port];
 		
@@ -71,9 +72,23 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 	DDLogInfo(@"Accepted new socket from %@:%hu", [newSocket connectedHost], [newSocket connectedPort]);
 	
 	// The newSocket automatically inherits its delegate & delegateQueue from its parent.
-	
-	[connectedSockets addObject:newSocket];
+    [connectedSockets addObject:newSocket];
+    [newSocket readDataToLength:48 withTimeout:-1 tag:0];
 }
+
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+{
+	// This method is executed on the socketQueue (not the main thread)
+    payload p;
+    NSData *payloadData = [data subdataWithRange:NSMakeRange(0, [data length] - [[GCDAsyncSocket ZeroData] length])];
+    [payloadData getBytes:&p];
+    [serverDelegate didReceivePacket:p];
+    NSLog(@"Heyo, got a packet.. %f %f %f", p.roll, p.pitch, p.yaw);
+    NSLog(@"Heyo, got a packet.. %f %f %f", p.ax, p.ay, p.az);
+
+    [sock readDataToLength:48 withTimeout:-1 tag:0];
+}
+
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
