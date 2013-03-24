@@ -119,7 +119,7 @@
 		s2 = 1.0 - scaleFactor;
 	}
 	
-	glBegin(GL_QUADS);     
+	glBegin(GL_QUADS);
 		glTexCoord2f(s1, t1);    glVertex2f(0, 0);
 		glTexCoord2f(s1, t2);    glVertex2f(0, [self height]); 
 		glTexCoord2f(s2, t2);    glVertex2f([self width], [self height]);
@@ -166,7 +166,7 @@
 	float yy4 = x2 * st + y1 * ct + ycen;
 	
 	glPushMatrix();
-
+    
 	glBegin(GL_QUADS);
 		glTexCoord2f(xx1, yy1);
 		glVertex2f(0, 0);

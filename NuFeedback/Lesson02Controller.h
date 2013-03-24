@@ -14,6 +14,7 @@
 #import <Cocoa/Cocoa.h>
 #import "Lesson02View.h"
 #import "RDFeedbackGLView.h"
+#import "RPServer.h"
 
 @interface Lesson02Controller : NSResponder
 {
@@ -27,6 +28,7 @@
     
 	bool zoomRot;
 	float panDelta;
+    RPServer *server;
 }
 
 - (void) awakeFromNib;

@@ -23,25 +23,27 @@
 @implementation Lesson02Controller
 
 - (void) awakeFromNib
-{  
-   [ NSApp setDelegate:self ];   // We want delegate notifications
-   renderTimer = nil;
-   [ glWindow makeFirstResponder:self ];
-   [ glWindow setAcceptsMouseMovedEvents:TRUE ];
-   [ glWindow setDelegate:self ];
-   glView = [ [ RDFeedbackGLView alloc ] initWithFrame:[ glWindow frame ]
-              colorBits:32 depthBits:16 fullscreen:FALSE ];
-   if( glView != nil )
-   {
-      [ glWindow setContentView:glView ];
-      [ glWindow makeKeyAndOrderFront:self ];
-      [ self setupRenderTimer ];
-	  zoomRot = true;
-      panDelta = 0.005;
-	  currentLocation = [NSEvent mouseLocation];
-   }
-   else
-      [ self createFailed ];
+{
+    [ NSApp setDelegate:self ];   // We want delegate notifications
+    renderTimer = nil;
+    [ glWindow makeFirstResponder:self ];
+    [ glWindow setAcceptsMouseMovedEvents:TRUE ];
+    [ glWindow setDelegate:self ];
+    glView = [ [ RDFeedbackGLView alloc ] initWithFrame:[ glWindow frame ]
+                                              colorBits:32 depthBits:16 fullscreen:FALSE ];
+    if( glView != nil )
+    {
+        [ glWindow setContentView:glView ];
+        [ glWindow makeKeyAndOrderFront:self ];
+        [ self setupRenderTimer ];
+        zoomRot = true;
+        panDelta = 0.005;
+        currentLocation = [NSEvent mouseLocation];
+    }
+    else
+        [ self createFailed ];
+
+    server = [[RPServer alloc] initWithDelegate:self];
 }  
 
 
