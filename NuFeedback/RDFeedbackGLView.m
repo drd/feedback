@@ -12,10 +12,85 @@
 #import <OpenGL/gl.h>
 #import <OpenGL/glu.h>
 
+
+// From https://github.com/alessani/ColorConverter
+// One could also implement HSL as a fragment shader:
+// http://stackoverflow.com/questions/9569068/gradient-with-hsv-rather-than-rgb-in-opengl
+static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* outB)
+{
+	float			temp1,
+    temp2;
+	float			temp[3];
+	int				i;
+	
+	// Check for saturation. If there isn't any just return the luminance value for each, which results in gray.
+	if(s == 0.0) {
+		if(outR)
+			*outR = l;
+		if(outG)
+			*outG = l;
+		if(outB)
+			*outB = l;
+		return;
+	}
+	
+	// Test for luminance and compute temporary values based on luminance and saturation
+	if(l < 0.5)
+		temp2 = l * (1.0 + s);
+	else
+		temp2 = l + s - l * s;
+    temp1 = 2.0 * l - temp2;
+	
+	// Compute intermediate values based on hue
+	temp[0] = h + 1.0 / 3.0;
+	temp[1] = h;
+	temp[2] = h - 1.0 / 3.0;
+    
+	for(i = 0; i < 3; ++i) {
+		
+		// Adjust the range
+		if(temp[i] < 0.0)
+			temp[i] += 1.0;
+		if(temp[i] > 1.0)
+			temp[i] -= 1.0;
+		
+		
+		if(6.0 * temp[i] < 1.0)
+			temp[i] = temp1 + (temp2 - temp1) * 6.0 * temp[i];
+		else {
+			if(2.0 * temp[i] < 1.0)
+				temp[i] = temp2;
+			else {
+				if(3.0 * temp[i] < 2.0)
+					temp[i] = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - temp[i]) * 6.0;
+				else
+					temp[i] = temp1;
+			}
+		}
+	}
+	
+	// Assign temporary values to R, G, B
+	if(outR)
+		*outR = temp[0];
+	if(outG)
+		*outG = temp[1];
+	if(outB)
+		*outB = temp[2];
+}
+
+// http://stackoverflow.com/questions/4633177/c-how-to-wrap-a-float-to-the-interval-pi-pi
+static double inline fwrap(double x, double y)
+{
+    if (0 == y) return x;
+    return x - y * floor(x/y);
+}
+
+
 @implementation RDFeedbackGLView
 
 - (id) initWithFrame:(NSRect)frame colorBits:(int)numColorBits
        depthBits:(int)numDepthBits fullscreen:(BOOL)runFullScreen
+       audioController:(RPAudioController *)theAudioController
 {
 	self = [super initWithFrame:frame colorBits:numColorBits depthBits:numDepthBits fullscreen:runFullScreen];
 
@@ -34,6 +109,8 @@
 		[self initGL];
 		[self initFrameBuffer:&fbo1 ofSize:texture_resolution withRenderBuffer:&rb1 andTexture:&tb1];
 		[self initFrameBuffer:&fbo2 ofSize:texture_resolution withRenderBuffer:&rb2 andTexture:&tb2];
+        
+        audioController = theAudioController;
     }
 
 	return self;
@@ -290,7 +367,13 @@
 	
 	glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+    
+    // These vary roughly from 0 to 1 for whistling input.
+    Float32 cookedPitch = audioController.pitch / 4000;
+    Float32 cookedLoudness = audioController.loudness / 40;
+    
+    float h1,s1,l1,h2,s2,l2,r1,g1,b1,r2,g2,b2;
+    
 	for(i = -2; i <= 2; i += .005)
 	{
 		glLineWidth(fabs(i) * lineWidth + 3);
@@ -300,15 +383,26 @@
 		float x2 = i + .1;
 		float y2 = sin(x2 * 5 + t*2);
 
-		float z1 = 1.5*cos(y1 * 3 - t * .5);
+		float z1 = 1.5*cos(y1 * 3 - t * .5)*(cookedLoudness+1);
 		float z2 = 1.5*cos(y2 * 3 - t * .5);
+        
+        h1 = fwrap(cookedPitch + cos(tt+x1)*0.2, 1.0);
+        s1 = 0.7 + 0.2*cos(tt+x1);
+        l1 = 0.5;
+        
+        h2 = fwrap(cookedPitch - cos(tt+x2)*0.2, 1.0);
+        s2 = 0.7 + 0.2*cos(tt+x2);
+        l2 = 0.5;
+
+        HSL2RGB(h1,s1,l1,&r1,&g1,&b1);
+        HSL2RGB(h2,s2,l2,&r2,&g2,&b2);
 		
 		glBegin(GL_LINES);
-			glColor4f(.7 + .3 * cos(tt + x1) , .7 + .3 * cos(tt + x1 + 23523), .7 + .3 * cos(tt + x1 + 235253), .25);
-			glVertex3f(x1, y1, z1);
-			
-			glColor4f(.7 + .3 * cos(tt + x2) , .7 + .3 * cos(tt + x2 + 23523), .7 + .3 * cos(tt + x2 + 235253), .25);
-			glVertex3f(x2, y2, z2);
+            glColor4f(r1 , g1, b1, 0.25);
+            glVertex3f(x1, y1, z1);
+            
+            glColor4f(r2, g2, b2, 0.25);
+            glVertex3f(x2, y2, z2);
 		glEnd();
 	} 
 	glColor4f(0.985, 0.985, 0.985, 0);

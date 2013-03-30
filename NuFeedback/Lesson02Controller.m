@@ -29,8 +29,10 @@
    [ glWindow makeFirstResponder:self ];
    [ glWindow setAcceptsMouseMovedEvents:TRUE ];
    [ glWindow setDelegate:self ];
+   audioController = [[RPAudioController alloc] init];
+   [audioController setUpAudio];
    glView = [ [ RDFeedbackGLView alloc ] initWithFrame:[ glWindow frame ]
-              colorBits:32 depthBits:16 fullscreen:FALSE ];
+             colorBits:32 depthBits:16 fullscreen:FALSE audioController:audioController ];
    if( glView != nil )
    {
       [ glWindow setContentView:glView ];

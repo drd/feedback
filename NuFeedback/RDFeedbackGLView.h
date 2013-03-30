@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "Lesson02View.h"
+#import "RPAudioController.h"
 
 @interface RDFeedbackGLView : Lesson02View {
 	int texture_resolution;
@@ -29,9 +30,11 @@
 
 	bool blur;
 	bool zoomRot;
+    
+    RPAudioController *audioController;
 }
 
-- (id) initWithFrame:(NSRect)frame colorBits:(int)numColorBits depthBits:(int)numDepthBits fullscreen:(BOOL)runFullScreen;
+- (id) initWithFrame:(NSRect)frame colorBits:(int)numColorBits depthBits:(int)numDepthBits fullscreen:(BOOL)runFullScreen audioController:(RPAudioController *)theAudioController;
 - (void) initGL;
 - (void) initFrameBuffer:(GLuint *)fbo ofSize:(int)size withRenderBuffer:(GLuint *)rb andTexture:(GLuint *)tb;
 

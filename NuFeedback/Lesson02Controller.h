@@ -14,6 +14,7 @@
 #import <Cocoa/Cocoa.h>
 #import "Lesson02View.h"
 #import "RDFeedbackGLView.h"
+#import "RPAudioController.h"
 
 @interface Lesson02Controller : NSResponder
 {
@@ -27,6 +28,8 @@
     
 	bool zoomRot;
 	float panDelta;
+    
+    RPAudioController *audioController;
 }
 
 - (void) awakeFromNib;
