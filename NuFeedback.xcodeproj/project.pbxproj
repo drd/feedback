@@ -21,6 +21,11 @@
 		07D9D5E116F1895E00E681D3 /* Lesson02View.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D9D5DD16F1895E00E681D3 /* Lesson02View.m */; };
 		07D9D5E216F1895E00E681D3 /* RDFeedbackGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D9D5DF16F1895E00E681D3 /* RDFeedbackGLView.m */; };
 		07D9D5E416F18B1D00E681D3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D9D5E316F18B1D00E681D3 /* OpenGL.framework */; };
+		63B628851705484700251951 /* RPAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B628841705484700251951 /* RPAudioController.m */; };
+		63B6288E1705652A00251951 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B6288D1705652A00251951 /* AudioToolbox.framework */; };
+		63B628901705653400251951 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B6288F1705653400251951 /* AudioUnit.framework */; };
+		63B628911705656F00251951 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B6288B1705651500251951 /* CoreAudio.framework */; };
+		63E34A7D1706515300D2B713 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E34A7C1706515300D2B713 /* Accelerate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +65,12 @@
 		07D9D5DE16F1895E00E681D3 /* RDFeedbackGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDFeedbackGLView.h; sourceTree = "<group>"; };
 		07D9D5DF16F1895E00E681D3 /* RDFeedbackGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDFeedbackGLView.m; sourceTree = "<group>"; };
 		07D9D5E316F18B1D00E681D3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		63B628831705484700251951 /* RPAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPAudioController.h; sourceTree = "<group>"; };
+		63B628841705484700251951 /* RPAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPAudioController.m; sourceTree = "<group>"; };
+		63B6288B1705651500251951 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		63B6288D1705652A00251951 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		63B6288F1705653400251951 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		63E34A7C1706515300D2B713 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +78,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63E34A7D1706515300D2B713 /* Accelerate.framework in Frameworks */,
+				63B628911705656F00251951 /* CoreAudio.framework in Frameworks */,
+				63B628901705653400251951 /* AudioUnit.framework in Frameworks */,
+				63B6288E1705652A00251951 /* AudioToolbox.framework in Frameworks */,
 				07D9D5E416F18B1D00E681D3 /* OpenGL.framework in Frameworks */,
 				07D9D5A716F1891800E681D3 /* Cocoa.framework in Frameworks */,
 			);
@@ -87,6 +102,10 @@
 		07D9D59716F1891800E681D3 = {
 			isa = PBXGroup;
 			children = (
+				63E34A7C1706515300D2B713 /* Accelerate.framework */,
+				63B6288F1705653400251951 /* AudioUnit.framework */,
+				63B6288D1705652A00251951 /* AudioToolbox.framework */,
+				63B6288B1705651500251951 /* CoreAudio.framework */,
 				07D9D5E316F18B1D00E681D3 /* OpenGL.framework */,
 				07D9D5AC16F1891800E681D3 /* NuFeedback */,
 				07D9D5C916F1891800E681D3 /* NuFeedbackTests */,
@@ -137,6 +156,8 @@
 				07D9D5DF16F1895E00E681D3 /* RDFeedbackGLView.m */,
 				07D9D5BB16F1891800E681D3 /* MainMenu.xib */,
 				07D9D5AD16F1891800E681D3 /* Supporting Files */,
+				63B628831705484700251951 /* RPAudioController.h */,
+				63B628841705484700251951 /* RPAudioController.m */,
 			);
 			path = NuFeedback;
 			sourceTree = "<group>";
@@ -286,6 +307,7 @@
 				07D9D5E016F1895E00E681D3 /* Lesson02Controller.m in Sources */,
 				07D9D5E116F1895E00E681D3 /* Lesson02View.m in Sources */,
 				07D9D5E216F1895E00E681D3 /* RDFeedbackGLView.m in Sources */,
+				63B628851705484700251951 /* RPAudioController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +491,7 @@
 				07D9D5D616F1891800E681D3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		07D9D5D716F1891800E681D3 /* Build configuration list for PBXNativeTarget "NuFeedbackTests" */ = {
 			isa = XCConfigurationList;
@@ -477,6 +500,7 @@
 				07D9D5D916F1891800E681D3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
